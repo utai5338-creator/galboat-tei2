@@ -18,18 +18,14 @@
       <option>宮島</option><option>徳山</option><option>下関</option><option>若松</option>
       <option>芦屋</option><option>福岡</option><option>唐津</option><option>大村</option>
     </select>
-
     <label>レース番号：</label>
     <input type="number" id="race" min="1" max="12" value="1">
-
     <label>風向：</label>
     <select id="windDir">
       <option>追い風</option><option>向かい風</option><option>横風</option>
     </select>
-
     <label>風速（m/s）：</label>
     <input type="number" id="windSpeed" value="1" min="0" max="10">
-
     <label>階級（各艇）:</label>
     <div class="grid">
       <select id="rank1"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
@@ -39,11 +35,9 @@
       <select id="rank5"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
       <select id="rank6"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
     </div>
-
     <label>展示データ（貼り付け）:</label>
     <textarea id="exData" rows="8" placeholder="展示 6.78 6.73 6.79 6.89 6.81 6.79&#10;周回 36.64 37.06 37.83 38.11 37.77 37.18&#10;周り足 5.07 5.34 5.38 5.42 5.76 5.63&#10;直線 7.37 7.40 7.39 7.47 7.46 7.54&#10;ST .04 .09 .07 F.05 F.05 .01"></textarea>
-
-    <button onclick="analyze()">テイちゃんに分析させる💋</button>
+    <button onclick="analyze()">分析スタート💋</button>
   </div>
   <script src="app.js"></script>
 </body>
