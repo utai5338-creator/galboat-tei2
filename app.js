@@ -77,9 +77,26 @@ const metrics = {};
     }));
 
     // 買い目自動生成（本命＋押さえ）
-    const best = evals.slice(0, 3).map(e => e.boat);
-    const main = [1, best[1], best[2]]; // 1号艇＋上位艇2つ
-    const sub = [1, best[0], best[2]];  // 外＋周り足上位想定
+let main = [], sub = [];
+
+// 上位艇の中に1号艇がいるかチェック
+const best = evals.slice(0, 3).map(e => e.boat);
+const hasOne = best.includes(1);
+
+if (hasOne) {
+  // 1号艇が上位なら、それを軸に他の上位艇を選ぶ
+  const others = best.filter(b => b !== 1);
+  main = [1, ...others.slice(0, 2)];
+  sub = [1, ...best.reverse().slice(0, 2).filter(b => b !== 1)];
+} else {
+  // 1号艇が上位外なら、それでも軸にして外勢と組む
+  main = [1, best[0], best[1]];
+  sub = [1, best[1], best[2]];
+}
+
+// 重複除去＆ソート
+main = [...new Set(main)].slice(0, 3).sort((a,b)=>a-b);
+sub = [...new Set(sub)].slice(0, 3).sort((a,b)=>a-b);
 
     // コメント変化
     const comments = [
@@ -115,4 +132,5 @@ const metrics = {};
     `;
   }
 };
+
 
