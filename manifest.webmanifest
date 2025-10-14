@@ -1,0 +1,9 @@
+{
+  "name": "ギャルボート by テイちゃん",
+  "short_name": "ギャルボート",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff80c0",
+  "icons": [{ "src": "assets/tei-chan.jpeg", "sizes": "512x512", "type": "image/jpeg" }]
+}

@@ -6,31 +6,20 @@ body {
   margin: 0;
   padding: 0;
 }
-
-.container {
-  margin-top: 10vh;
-}
-
+.container { margin-top: 10vh; }
 .tei-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #ff7dc7;
+  width: 200px; height: 200px; border-radius: 50%;
+  object-fit: cover; border: 4px solid #ff7dc7;
 }
-
 button {
-  background-color: #ff80c0;
-  border: none;
-  border-radius: 25px;
-  padding: 15px 30px;
-  font-size: 18px;
-  color: white;
-  margin-top: 30px;
-  cursor: pointer;
-  transition: 0.3s;
+  background-color: #ff80c0; border: none; border-radius: 25px;
+  padding: 15px 30px; font-size: 18px; color: white; margin-top: 30px;
+  cursor: pointer; transition: 0.3s;
 }
-
-button:hover {
-  background-color: #ff5aad;
+button:hover { background-color: #ff5aad; }
+h2 { color: #ff5aad; margin-top: 20px; }
+textarea {
+  width: 90%; border-radius: 10px; border: 2px solid #ffb7d5;
+  padding: 10px; font-size: 15px;
 }
+.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
