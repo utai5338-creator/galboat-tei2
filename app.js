@@ -23,12 +23,19 @@ window.onload = function () {
     const resultArea = document.getElementById("resultArea");
 
     // --- 解析ロジック ---
-    const lines = data.exData.split("\n").map(l => l.trim());
-    const metrics = {};
-    ["展示", "周回", "周り足", "直線", "ST"].forEach(key => {
-      const line = lines.find(l => l.startsWith(key));
-      if (line) metrics[key] = line.split(" ").slice(1, 7).map(parseFloat);
-    });
+const lines = data.exData.split("\n").map(l => l.trim());
+const metrics = {};
+["展示", "周回", "周り足", "直線", "ST"].forEach(key => {
+  const line = lines.find(l => l.includes(key));
+  if (line) {
+    // 数字と小数点だけ抽出して配列化
+    const nums = line.match(/[0-9]+\.[0-9]+/g);
+    if (nums && nums.length >= 6) {
+      metrics[key] = nums.slice(0, 6).map(n => parseFloat(n));
+    }
+  }
+});
+
 
     function getRanks(values) {
       const arr = values.map((v, i) => ({ v, i }));
@@ -108,3 +115,4 @@ window.onload = function () {
     `;
   }
 };
+
