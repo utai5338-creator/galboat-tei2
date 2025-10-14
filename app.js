@@ -54,13 +54,23 @@ window.onload = function () {
     const turnRank = getRanks(metrics["周り足"] || [0, 0, 0, 0, 0, 0]);
     const strRank = getRanks(metrics["直線"] || [0, 0, 0, 0, 0, 0]);
 
-    // 総合スコア計算
+    // --- 総合スコア計算 ---
     const score = [];
     for (let i = 0; i < 6; i++) {
       let s = lapRank[i] * 2 + displayRank[i] + turnRank[i] + strRank[i] * 0.5;
-      if (data.fStatus[i] === "F1") s += 1;
-      if (data.fStatus[i] === "F2") s += 2;
-      if (data.fStatus[i] === "F3") s += 3;
+
+      // フライング補正
+      if (data.fStatus[i] === "F1") s += 0.8;
+      if (data.fStatus[i] === "F2") s += 1.5;
+      if (data.fStatus[i] === "F3") s += 3.0;
+      if (data.fStatus[i] === "F切") s += 2.5;
+
+      // 階級補正
+      if (data.ranks[i] === "A1") s -= 0.7;
+      if (data.ranks[i] === "A2") s -= 0.3;
+      if (data.ranks[i] === "B1") s += 0.5;
+      if (data.ranks[i] === "B2") s += 1.0;
+
       score.push({ i: i + 1, s });
     }
 
@@ -80,7 +90,7 @@ window.onload = function () {
     }));
 
     // --- 買い目自動生成（重複・例外防止版）---
-    const best = evals.slice(0, 4).map(e => e.boat); // 上位4艇まで
+    const best = evals.slice(0, 4).map(e => e.boat);
     let main = [];
     let sub = [];
 
@@ -96,24 +106,29 @@ window.onload = function () {
     function uniqueCombo(arr) {
       return [...new Set(arr)].slice(0, 3).sort((a,b)=>a-b);
     }
-
     main = uniqueCombo(main);
     sub = uniqueCombo(sub);
-
     if (JSON.stringify(main) === JSON.stringify(sub)) {
       sub = uniqueCombo([1, best[2], best[3] || 6]);
     }
 
-    // --- コメント変化 ---
-    const comments = [
-      "展示の流れマジ完璧✨今日は逃げ信頼よ💋",
-      "外勢ちょいアツ〜！風向きで一発あるかも🔥",
-      "F持ちいても足はイケてる〜推し舟券いっとこ💫",
-      "周回◎で差し展開もワンチャンあるね💥",
-      "内枠堅めだけど、外も気になる〜💖",
-    ];
-    const comment = comments[Math.floor(Math.random() * comments.length)];
-    const confidence = best[0] === 1 ? "A" : "B＋";
+    // --- 展開コメント生成 ---
+    let comment = "";
+    const hasHighRank = data.ranks.includes("A1") || data.ranks.includes("A2");
+    const manyF = data.fStatus.filter(f => f === "F2" || f === "F3" || f === "F切").length;
+    const outerStrong = best.some(b => b >= 4);
+
+    if (data.ranks[0] === "A1" && lapRank[0] === 1) comment = "イン信頼！A1様の貫禄よ💋";
+    else if (outerStrong && hasHighRank) comment = "外の伸びヤバ〜！まくり差し決まるかも🔥";
+    else if (manyF >= 2) comment = "F多すぎて波乱の予感💥荒れる展開あり！";
+    else if (data.windDir.includes("向かい")) comment = "向かい風注意⚡外差し浮上あるかも！";
+    else comment = "安定の内寄り展開〜堅実勝負で💎";
+
+    // --- 自信ランク ---
+    let confidence = "B";
+    if (data.ranks[0] === "A1" && lapRank[0] <= 2) confidence = "A";
+    if (best[0] === 1 && hasHighRank && manyF === 0) confidence = "S";
+    if (manyF >= 2) confidence = "B−";
 
     // --- 結果出力 ---
     resultArea.innerHTML = `
@@ -129,11 +144,12 @@ window.onload = function () {
       <p>→ 総合ランク：${evals.map(e => e.boat + "号艇" + e.rank).join("、")}</p>
       <hr>
       <h4>💡1号艇信頼度：★★★★☆</h4>
-      <p>・イン＋周回◎で軸信頼！</p>
+      <p>・階級：${data.ranks[0]}　F状況：${data.fStatus[0]}　→ 軸信頼度高め</p>
       <h4>🧠展開メモ</h4>
       <p>${comment}</p>
       <h4>🎖予想自信ランク：${confidence}</h4>
     `;
   }
 };
+
 
