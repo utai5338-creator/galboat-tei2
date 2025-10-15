@@ -8,22 +8,6 @@
 <body>
   <h2>🏁 ギャルボート予想（入力画面）</h2>
 
-  <label>レース番号：</label>
-  <select id="race">
-    <option value="1">1R</option>
-    <option value="2">2R</option>
-    <option value="3">3R</option>
-    <option value="4">4R</option>
-    <option value="5">5R</option>
-    <option value="6">6R</option>
-    <option value="7">7R</option>
-    <option value="8">8R</option>
-    <option value="9">9R</option>
-    <option value="10">10R</option>
-    <option value="11">11R</option>
-    <option value="12">12R</option>
-  </select><br>
-
   <label>風向：</label>
   <select id="windDir">
     <option>追い風</option>
@@ -32,7 +16,18 @@
   </select>
 
   <label>風速：</label>
-  <input id="windSpeed" type="number" step="0.1" value="0"> m<br><br>
+  <select id="windSpeed">
+    <option value="0">0m</option>
+    <option value="1">1m</option>
+    <option value="2">2m</option>
+    <option value="3">3m</option>
+    <option value="4">4m</option>
+    <option value="5">5m</option>
+    <option value="6">6m</option>
+    <option value="7">7m</option>
+    <option value="8">8m以上</option>
+  </select>
+  <br><br>
 
   <h4>選手情報（階級・フライング）</h4>
   <table border="1" style="border-collapse: collapse; text-align: center;">
@@ -73,5 +68,6 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
