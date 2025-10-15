@@ -8,11 +8,21 @@
 <body>
   <h2>🏁 ギャルボート予想（入力画面）</h2>
 
-  <label>開催場：</label>
-  <input id="place" placeholder="例：住之江"><br>
-
   <label>レース番号：</label>
-  <input id="race" placeholder="例：12"><br>
+  <select id="race">
+    <option value="1">1R</option>
+    <option value="2">2R</option>
+    <option value="3">3R</option>
+    <option value="4">4R</option>
+    <option value="5">5R</option>
+    <option value="6">6R</option>
+    <option value="7">7R</option>
+    <option value="8">8R</option>
+    <option value="9">9R</option>
+    <option value="10">10R</option>
+    <option value="11">11R</option>
+    <option value="12">12R</option>
+  </select><br>
 
   <label>風向：</label>
   <select id="windDir">
@@ -55,7 +65,7 @@
   </table>
 
   <h4>展示データ（コピー貼り付け）</h4>
-  <textarea id="exData" rows="8" cols="60" placeholder="展示タイムや周回・直線などを貼り付け"></textarea>
+  <textarea id="exData" rows="8" cols="60" placeholder="展示・周回・直線タイムなどを貼り付け"></textarea>
   <br><br>
 
   <button onclick="analyze()">スタート💥</button>
@@ -63,4 +73,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
