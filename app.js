@@ -35,7 +35,8 @@ window.onload = function () {
       }
     });
 
-    if (!metrics["直線"]) metrics["直線"] = [7.00,7.00,7.00,7.00,7.00,7.00];
+    // 直線データが無い場（徳山・住之江など）補完
+    if (!metrics["直線"]) metrics["直線"] = [7.00, 7.00, 7.00, 7.00, 7.00, 7.00];
 
     // 順位化関数
     function getRanks(values) {
@@ -59,7 +60,7 @@ window.onload = function () {
       // F補正
       if (data.fStatus[i] === "F1") s += 1;
       if (data.fStatus[i] === "F2") s += 2;
-      if (data.fStatus[i] === "F3") s += 4;  // 完全除外級
+      if (data.fStatus[i] === "F3") s += 4; // 完全除外級
       if (data.fStatus[i] === "F切") s += 5; // 今節切りは最重減点
 
       // 階級補正
@@ -76,7 +77,7 @@ window.onload = function () {
     // --- 展開判定 ---
     const manyF = data.fStatus.filter(f => f === "F2" || f === "F3" || f === "F切").length;
     const outerA = data.ranks.slice(3).some(r => r === "A1" || r === "A2");
-    const innerWeak = ["B1","B2"].includes(data.ranks[0]) || ["B1","B2"].includes(data.ranks[1]);
+    const innerWeak = ["B1", "B2"].includes(data.ranks[0]) || ["B1", "B2"].includes(data.ranks[1]);
 
     let scenario = "イン逃げ型";
     if (data.ranks[0] === "B2" || data.fStatus[0] === "F2" || data.fStatus[0] === "F3" || data.fStatus[0] === "F切") {
@@ -89,34 +90,35 @@ window.onload = function () {
       scenario = "波乱型";
     }
 
-    // --- 舟券候補抽出 ---
-    const safeBoats = score.filter(s =>
-      data.fStatus[s.i - 1] !== "F3" &&
-      data.fStatus[s.i - 1] !== "F切" &&
-      data.ranks[s.i - 1] !== "B2"
-    ).map(s => s.i);
-
     // --- 買い目生成 ---
     let main = [], sub = [], comment = "", confidence = "B";
 
+    // 上位艇抽出
+    const top3 = score.slice(0, 3).map(s => s.i);
+
     if (scenario === "イン逃げ型") {
-      main = [1, 2, 3];
-      sub = [1, 3, 4];
+      main = [1, top3[1], top3[2]];
+      sub = [1, top3[0], top3[1]];
       comment = "逃げ信頼💋A級イン戦は鉄板ムード！";
       confidence = "A";
     } else if (scenario === "差し戦型") {
-      main = [1, 3, 4];
-      sub = [1, 4, 5];
-      comment = "2・3コースの差し一撃あるかも💥";
+      main = [top3[0], top3[1], 1];
+      sub = [1, top3[0], top3[2]];
+      comment = "差し一撃も💥スタート決まれば波乱！";
       confidence = "B＋";
     } else if (scenario === "外まくり型") {
-      main = safeBoats.includes(3) ? [3, 4, 5] : [4, 5, 6];
-      sub = [1, 4, 5];
+      main = top3;
+      sub = [1, top3[0], top3[1]];
       comment = "向かい風＋外A級🔥まくり差し展開！";
       confidence = "B＋";
     } else if (scenario === "波乱型") {
-      main = [2, 3, 5];
-      sub = [1, 4, 6];
+      const chaos = score.filter(s =>
+        data.fStatus[s.i - 1] !== "F3" &&
+        data.fStatus[s.i - 1] !== "F切" &&
+        data.ranks[s.i - 1] !== "B2"
+      ).slice(0, 3).map(s => s.i);
+      main = chaos;
+      sub = [1, chaos[1], chaos[2]];
       comment = "F艇多め💥B級中心で波乱注意⚡";
       confidence = "B−";
     }
@@ -155,9 +157,3 @@ window.onload = function () {
     `;
   }
 };
-
-
-
-
-
-
