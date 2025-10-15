@@ -1,61 +1,78 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>展示入力 - ギャルボート by テイちゃん</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ボートレース予想AI Ver.3.9</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f0f8ff;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px #aaa;
+}
+h1 {
+  text-align: center;
+  color: #0066cc;
+}
+textarea {
+  width: 100%;
+  height: 180px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+button {
+  background: #0078d7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background: #005fa3;
+}
+.result {
+  background: #fafafa;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border-left: 6px solid #0078d7;
+  white-space: pre-wrap;
+}
+.f1 { color: #ff9900; font-weight: bold; }
+.f2 { color: #ff3333; font-weight: bold; }
+.f3 { color: #990000; font-weight: bold; }
+</style>
 </head>
 <body>
-  <h2>展示データ入力💄</h2>
-  <div class="form">
-    <label>場名：</label>
-    <select id="place">
-      <option>桐生</option><option>戸田</option><option>江戸川</option><option>平和島</option>
-      <option>多摩川</option><option>浜名湖</option><option>蒲郡</option><option>常滑</option>
-      <option>津</option><option>三国</option><option>びわこ</option><option>住之江</option>
-      <option>尼崎</option><option>鳴門</option><option>丸亀</option><option>児島</option>
-      <option>宮島</option><option>徳山</option><option>下関</option><option>若松</option>
-      <option>芦屋</option><option>福岡</option><option>唐津</option><option>大村</option>
-    </select>
+<div class="container">
+<h1>🏁 ボートレース予想AI Ver.3.9</h1>
 
-    <label>レース番号：</label>
-    <input type="number" id="race" min="1" max="12" value="1" />
+<p>艇データを入力（例）:</p>
+<textarea id="inputData" placeholder='例：
+1,6.72,36.80,7.83,7.61,0.05,-
+2,6.75,37.03,7.85,7.63,0.06,F1
+3,6.75,37.52,8.12,7.73,0.08,F2
+4,6.75,37.07,7.83,7.74,0.12,-
+5,6.70,36.88,7.87,7.69,0.28,F2
+6,6.75,37.24,7.99,7.70,0.12,-'></textarea>
 
-    <label>風向：</label>
-    <select id="windDir">
-      <option>追い風</option><option>向かい風</option><option>横風</option>
-    </select>
+<button onclick="runPrediction()">予想する💡</button>
 
-    <label>風速（m/s）：</label>
-    <input type="number" id="windSpeed" value="1" min="0" max="10" />
+<div id="output" class="result"></div>
+</div>
 
-    <label>階級（各艇）:</label>
-    <div class="grid">
-      <select id="rank1"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-      <select id="rank2"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-      <select id="rank3"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-      <select id="rank4"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-      <select id="rank5"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-      <select id="rank6"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select>
-    </div>
-
-    <label>F持ち（各艇）:</label>
-    <div class="grid">
-      <select id="f1"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-      <select id="f2"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-      <select id="f3"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-      <select id="f4"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-      <select id="f5"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-      <select id="f6"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select>
-    </div>
-
-    <label>展示データ（貼り付け）:</label>
-    <textarea id="exData" rows="8" placeholder="展示 6.78 6.73 6.79 6.89 6.81 6.79&#10;周回 36.64 37.06 37.83 38.11 37.77 37.18&#10;周り足 5.07 5.34 5.38 5.42 5.76 5.63&#10;直線 7.37 7.40 7.39 7.47 7.46 7.54&#10;ST .04 .09 .07 F.05 F.05 .01"></textarea>
-
-    <button onclick="runPrediction()">分析スタート💋</button>
-  </div>
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
+
 
