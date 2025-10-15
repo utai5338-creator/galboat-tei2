@@ -1,11 +1,11 @@
 // --- ギャルボート Ver.3.9（input.html → result.html構成対応）---
 
 function analyze() {
-  const place = document.getElementById("place").value;
   const race = document.getElementById("race").value;
   const windDir = document.getElementById("windDir").value;
   const windSpeed = parseFloat(document.getElementById("windSpeed").value);
   const exData = document.getElementById("exData").value;
+
 
   const ranks = [], fStatus = [];
   for (let i = 1; i <= 6; i++) {
@@ -13,7 +13,7 @@ function analyze() {
     fStatus.push(document.getElementById("f" + i).value);
   }
 
-  const data = { place, race, windDir, windSpeed, exData, ranks, fStatus };
+  const data = { race, windDir, windSpeed, exData, ranks, fStatus };
   localStorage.setItem("teiData", JSON.stringify(data));
   location.href = "result.html";
 }
@@ -181,5 +181,6 @@ window.onload = function () {
     `;
   }
 };
+
 
 
