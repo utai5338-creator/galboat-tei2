@@ -2,35 +2,45 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ギャルボート by テイちゃん</title>
+  <title>ギャルボート｜入力</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>🏁 ギャルボート予想（入力画面）</h2>
 
-  <label>風向：</label>
-  <select id="windDir">
-    <option>追い風</option>
-    <option>向かい風</option>
-    <option>横風</option>
-  </select>
+<header class="header">
+  <div class="logo-area">
+    <img src="https://cdn-icons-png.flaticon.com/512/2583/2583317.png" alt="テイちゃん" class="logo">
+    <h1>ギャルボート by テイちゃん💋</h1>
+  </div>
+</header>
 
-  <label>風速：</label>
-  <select id="windSpeed">
-    <option value="0">0m</option>
-    <option value="1">1m</option>
-    <option value="2">2m</option>
-    <option value="3">3m</option>
-    <option value="4">4m</option>
-    <option value="5">5m</option>
-    <option value="6">6m</option>
-    <option value="7">7m</option>
-    <option value="8">8m以上</option>
-  </select>
-  <br><br>
+<div class="container">
+  <h2>🏁 予想入力</h2>
+
+  <p>
+    <label>風向：</label>
+    <select id="windDir">
+      <option>追い風</option>
+      <option>向かい風</option>
+      <option>横風</option>
+    </select>
+
+    <label>風速：</label>
+    <select id="windSpeed">
+      <option value="0">0m</option>
+      <option value="1">1m</option>
+      <option value="2">2m</option>
+      <option value="3">3m</option>
+      <option value="4">4m</option>
+      <option value="5">5m</option>
+      <option value="6">6m</option>
+      <option value="7">7m</option>
+      <option value="8">8m以上</option>
+    </select>
+  </p>
 
   <h4>選手情報（階級・フライング）</h4>
-  <table border="1" style="border-collapse: collapse; text-align: center;">
+  <table>
     <tr><th>艇</th><th>階級</th><th>F持ち</th></tr>
     <script>
       for (let i = 1; i <= 6; i++) {
@@ -64,10 +74,17 @@
   <br><br>
 
   <button onclick="analyze()">スタート💥</button>
+</div>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
+
+<footer class="footer">
+  <p>💫 powered by ギャルAI予想家テイちゃん 💫</p>
+</footer>
+
 </body>
 </html>
+
 
 
 
