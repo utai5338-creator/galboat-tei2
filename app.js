@@ -34,40 +34,36 @@ window.onload = function () {
         }
       }
     });
+    if (!metrics["直線"]) metrics["直線"] = [7, 7, 7, 7, 7, 7];
 
-    // 直線データが無い場（徳山・住之江など）補完
-    if (!metrics["直線"]) metrics["直線"] = [7.00, 7.00, 7.00, 7.00, 7.00, 7.00];
-
-    // 順位化関数
-    function getRanks(values) {
+    const getRanks = (values) => {
       const arr = values.map((v, i) => ({ v, i }));
       arr.sort((a, b) => a.v - b.v);
       const ranks = Array(6);
       arr.forEach((x, i) => (ranks[x.i] = i + 1));
       return ranks;
-    }
+    };
 
     const displayRank = getRanks(metrics["展示"]);
     const lapRank = getRanks(metrics["周回"]);
     const turnRank = getRanks(metrics["周り足"]);
     const strRank = getRanks(metrics["直線"]);
 
-    // --- 総合スコア算出（展示＋階級＋F補正）---
+    // --- 総合スコア計算 ---
     const score = [];
     for (let i = 0; i < 6; i++) {
       let s = lapRank[i] * 2 + displayRank[i] + turnRank[i] + strRank[i] * 0.5;
 
       // F補正
-      if (data.fStatus[i] === "F1") s += 1;
-      if (data.fStatus[i] === "F2") s += 2;
-      if (data.fStatus[i] === "F3") s += 4; // 完全除外級
-      if (data.fStatus[i] === "F切") s += 5; // 今節切りは最重減点
+      if (data.fStatus[i] === "F1") s += 1.5;
+      if (data.fStatus[i] === "F2") s += 4;
+      if (data.fStatus[i] === "F3" || data.fStatus[i] === "F切") s += 10;
 
       // 階級補正
       if (data.ranks[i] === "A1") s -= 0.8;
       if (data.ranks[i] === "A2") s -= 0.4;
       if (data.ranks[i] === "B1") s += 0.6;
-      if (data.ranks[i] === "B2") s += 1.2;
+      if (data.ranks[i] === "B2") s += 1.5;
 
       score.push({ i: i + 1, s });
     }
@@ -75,52 +71,71 @@ window.onload = function () {
     score.sort((a, b) => a.s - b.s);
 
     // --- 展開判定 ---
-    const manyF = data.fStatus.filter(f => f === "F2" || f === "F3" || f === "F切").length;
-    const outerA = data.ranks.slice(3).some(r => r === "A1" || r === "A2");
+    const manyF = data.fStatus.filter(f => ["F2", "F3", "F切"].includes(f)).length;
+    const outerA = data.ranks.slice(3).some(r => ["A1", "A2"].includes(r));
     const innerWeak = ["B1", "B2"].includes(data.ranks[0]) || ["B1", "B2"].includes(data.ranks[1]);
 
     let scenario = "イン逃げ型";
-    if (data.ranks[0] === "B2" || data.fStatus[0] === "F2" || data.fStatus[0] === "F3" || data.fStatus[0] === "F切") {
+    if (manyF >= 2 || innerWeak || ["F2", "F3", "F切"].includes(data.fStatus[0])) {
       scenario = "波乱型";
     } else if (data.windDir.includes("向かい") && data.windSpeed >= 3 && outerA) {
       scenario = "外まくり型";
     } else if (lapRank[1] === 1 && data.ranks[1].includes("A")) {
       scenario = "差し戦型";
-    } else if (manyF >= 2 || innerWeak) {
-      scenario = "波乱型";
     }
 
     // --- 買い目生成 ---
     let main = [], sub = [], comment = "", confidence = "B";
 
-    // 上位艇抽出
     const top3 = score.slice(0, 3).map(s => s.i);
+    const validBoats = score
+      .filter(s => !["F3", "F切"].includes(data.fStatus[s.i - 1]))
+      .map(s => s.i);
+
+    // 補助関数：重複除去・昇順化・補充
+    const normalize = (arr) => {
+      let uniq = Array.from(new Set(arr)).sort((a, b) => a - b);
+      while (uniq.length < 3) {
+        const next = score.find(s => !uniq.includes(s.i));
+        if (next) uniq.push(next.i);
+        else break;
+      }
+      return uniq.slice(0, 3);
+    };
+
+    // F2以上をmainから除外
+    const isSafe = (i) => !["F2", "F3", "F切"].includes(data.fStatus[i - 1]);
 
     if (scenario === "イン逃げ型") {
-      main = [1, top3[1], top3[2]];
-      sub = [1, top3[0], top3[1]];
+      main = normalize([1, ...validBoats.filter(isSafe).slice(0, 2)]);
+      sub = normalize([1, validBoats[1], validBoats[2]]);
       comment = "逃げ信頼💋A級イン戦は鉄板ムード！";
       confidence = "A";
     } else if (scenario === "差し戦型") {
-      main = [top3[0], top3[1], 1];
-      sub = [1, top3[0], top3[2]];
+      main = normalize(validBoats.filter(isSafe).slice(0, 3));
+      sub = normalize([1, validBoats[0], validBoats[1]]);
       comment = "差し一撃も💥スタート決まれば波乱！";
       confidence = "B＋";
     } else if (scenario === "外まくり型") {
-      main = top3;
-      sub = [1, top3[0], top3[1]];
+      main = normalize(validBoats.filter(isSafe).slice(0, 3));
+      sub = normalize([1, validBoats[0], validBoats[1]]);
       comment = "向かい風＋外A級🔥まくり差し展開！";
       confidence = "B＋";
-    } else if (scenario === "波乱型") {
-      const chaos = score.filter(s =>
-        data.fStatus[s.i - 1] !== "F3" &&
-        data.fStatus[s.i - 1] !== "F切" &&
-        data.ranks[s.i - 1] !== "B2"
-      ).slice(0, 3).map(s => s.i);
-      main = chaos;
-      sub = [1, chaos[1], chaos[2]];
+    } else {
+      const chaos = score.filter(s => {
+        const f = data.fStatus[s.i - 1];
+        const r = data.ranks[s.i - 1];
+        return !["F3", "F切"].includes(f) && r !== "B2";
+      }).slice(0, 3).map(s => s.i);
+      main = normalize(chaos);
+      sub = normalize([1, ...chaos.slice(1)]);
       comment = "F艇多め💥B級中心で波乱注意⚡";
       confidence = "B−";
+    }
+
+    if (JSON.stringify(main) === JSON.stringify(sub)) {
+      const next = score.find(s => !main.includes(s.i));
+      if (next) sub = normalize([...main.slice(0, 2), next.i]);
     }
 
     // --- 総合ランク ---
@@ -144,11 +159,11 @@ window.onload = function () {
       <p><b>押さえ：</b>${sub.join("–")}</p>
       <hr>
       <h4>🔍展示分析</h4>
-      <p>展示1位：${displayRank.indexOf(1)+1}号艇（★）</p>
-      <p>周回1位：${lapRank.indexOf(1)+1}号艇（★）</p>
-      <p>周り足1位：${turnRank.indexOf(1)+1}号艇（★）</p>
-      <p>直線1位：${strRank.indexOf(1)+1}号艇（★）</p>
-      <p>→ 総合ランク：${evals.map(e=>`${e.boat}号艇${e.rank}`).join("、")}</p>
+      <p>展示1位：${displayRank.indexOf(1) + 1}号艇（★）</p>
+      <p>周回1位：${lapRank.indexOf(1) + 1}号艇（★）</p>
+      <p>周り足1位：${turnRank.indexOf(1) + 1}号艇（★）</p>
+      <p>直線1位：${strRank.indexOf(1) + 1}号艇（★）</p>
+      <p>→ 総合ランク：${evals.map(e => `${e.boat}号艇${e.rank}`).join("、")}</p>
       <hr>
       <h4>💡展開メモ</h4>
       <p>${comment}</p>
@@ -157,3 +172,4 @@ window.onload = function () {
     `;
   }
 };
+
