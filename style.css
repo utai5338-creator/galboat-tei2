@@ -1,25 +1,42 @@
-/* 🎨 ギャルボートデザイン Ver.1.0 */
+/* 🎨 ギャルボートデザイン Ver.4.0 by テイちゃん */
 
 body {
   font-family: "Noto Sans JP", sans-serif;
-  background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #dff2ff 0%, #ffffff 100%);
   color: #222;
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
+/* 🩵 ヘッダー */
 h2 {
-  color: #0078d7;
-  text-shadow: 1px 1px 2px #b0d8ff;
+  background: linear-gradient(90deg, #ff66a3, #0078d7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  text-shadow: 0 2px 6px rgba(255, 0, 128, 0.2);
 }
 
+/* 💫 コンテナ（全体カード風） */
+.container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+/* 🧍 テーブル */
 table {
   margin: 1.5rem auto;
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  background: #fff;
-  border-radius: 10px;
+  width: 80%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -27,6 +44,7 @@ th {
   background: #0078d7;
   color: #fff;
   padding: 0.6rem 1rem;
+  font-weight: 500;
 }
 
 td {
@@ -34,54 +52,84 @@ td {
   border-bottom: 1px solid #eee;
 }
 
+/* ✏️ テキストエリア */
 textarea {
-  border: 2px solid #0078d7;
-  border-radius: 8px;
-  padding: 0.8rem;
+  border: 2px solid #ff7abc;
+  border-radius: 10px;
+  padding: 1rem;
   width: 80%;
   max-width: 600px;
   font-size: 14px;
   resize: vertical;
   outline: none;
+  transition: 0.3s;
+}
+textarea:focus {
+  box-shadow: 0 0 10px rgba(255, 122, 188, 0.4);
 }
 
+/* 💖 ボタン */
 button {
   background: linear-gradient(90deg, #ff0080, #ff6ac1);
   color: white;
   border: none;
-  border-radius: 25px;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
+  border-radius: 30px;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255,0,128,0.4);
-  transition: 0.3s;
+  box-shadow: 0 4px 12px rgba(255,0,128,0.4);
+  transition: all 0.3s ease;
 }
-
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(255,0,128,0.5);
+  box-shadow: 0 6px 16px rgba(255,0,128,0.6);
 }
 
+/* 🩷 フォーム項目 */
 select, input {
   border: 1.5px solid #0078d7;
-  border-radius: 6px;
-  padding: 0.4rem;
+  border-radius: 8px;
+  padding: 0.5rem;
   margin: 0.3rem;
 }
 
+/* 💬 結果ページ */
+#resultArea {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  width: 85%;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: left;
+  line-height: 1.8;
+}
+
+h3, h4 {
+  color: #0078d7;
+}
+
+/* 🔥 区切り線 */
 hr {
   width: 80%;
-  margin: 1.5rem auto;
+  margin: 2rem auto;
   border: 0;
-  border-top: 1.5px solid #ccc;
+  border-top: 2px dashed #ccc;
 }
 
-a {
-  color: #0078d7;
-  text-decoration: none;
-  font-weight: bold;
+/* 📱 スマホ対応 */
+@media screen and (max-width: 600px) {
+  .container, #resultArea {
+    width: 95%;
+    padding: 1.2rem;
+  }
+  table {
+    width: 100%;
+  }
+  button {
+    width: 90%;
+  }
 }
 
-a:hover {
-  text-decoration: underline;
-}
+
