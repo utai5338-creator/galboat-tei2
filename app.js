@@ -1,6 +1,3 @@
-// --- BoatRace Prediction Ver.3.9 ---
-// フライング補正・重複防止強化版
-
 function runPrediction() {
   const input = document.getElementById("inputData").value.trim();
   if (!input) return alert("データを入力してね⚡");
@@ -28,7 +25,6 @@ function getPrediction(data) {
       (20 / d.straight) +
       (10 / d.display);
 
-    // --- フライング補正 ---
     let fPenalty = 1.0;
     if (d.flying === "F1") fPenalty = 0.85;
     else if (d.flying === "F2") fPenalty = 0.65;
@@ -41,7 +37,6 @@ function getPrediction(data) {
   const validBoats = scoreList.filter(b => b.score > 0);
   validBoats.sort((a, b) => b.score - a.score);
 
-  // --- 軸艇 ---
   let axisBoat = validBoats[0];
   if (axisBoat.flying === "F2" || axisBoat.flying === "F3") {
     const next = validBoats.find(b => b.flying === "-" || b.flying === "F1");
@@ -53,7 +48,6 @@ function getPrediction(data) {
 
   let rawMain = [], rawSub = [];
 
-  // --- 本命（軸＋上位2艇） ---
   for (let i = 0; i < candidates.length; i++) {
     for (let j = i + 1; j < candidates.length; j++) {
       rawMain.push([axis, candidates[i].boat, candidates[j].boat]);
@@ -62,7 +56,6 @@ function getPrediction(data) {
     if (rawMain.length >= 2) break;
   }
 
-  // --- 押さえ（上位3艇＋軸） ---
   for (let i = 0; i < 4; i++) {
     for (let j = i + 1; j < 4; j++) {
       rawSub.push([candidates[i].boat, candidates[j].boat, axis]);
@@ -71,14 +64,12 @@ function getPrediction(data) {
     if (rawSub.length >= 2) break;
   }
 
-  // --- 重複防止＆昇順整列 ---
   const formatSets = arr =>
     Array.from(new Set(arr.map(a => a.sort((x,y)=>x-y).join('-'))));
 
   const main = formatSets(rawMain);
   const sub = formatSets(rawSub);
 
-  // --- 信頼度ランク ---
   let confidence = "B";
   if (axisBoat.flying === "-") confidence = "A";
   if (axisBoat.flying === "F1") confidence = "A−";
