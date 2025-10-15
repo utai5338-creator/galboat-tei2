@@ -1,11 +1,9 @@
-// --- ギャルボート Ver.3.9（input.html → result.html構成対応）---
+// --- ギャルボート Ver.3.9 Final（race削除＋風速整数対応）---
 
 function analyze() {
-  const race = document.getElementById("race").value;
   const windDir = document.getElementById("windDir").value;
-  const windSpeed = parseFloat(document.getElementById("windSpeed").value);
+  const windSpeed = parseInt(document.getElementById("windSpeed").value); // ←整数化
   const exData = document.getElementById("exData").value;
-
 
   const ranks = [], fStatus = [];
   for (let i = 1; i <= 6; i++) {
@@ -13,7 +11,8 @@ function analyze() {
     fStatus.push(document.getElementById("f" + i).value);
   }
 
-  const data = { race, windDir, windSpeed, exData, ranks, fStatus };
+  // race, place削除 → 保存データも修正
+  const data = { windDir, windSpeed, exData, ranks, fStatus };
   localStorage.setItem("teiData", JSON.stringify(data));
   location.href = "result.html";
 }
@@ -38,7 +37,6 @@ window.onload = function () {
     });
     if (!metrics["直線"]) metrics["直線"] = [7, 7, 7, 7, 7, 7];
 
-    // --- 順位計算関数 ---
     const getRanks = (values) => {
       const arr = values.map((v, i) => ({ v, i }));
       arr.sort((a, b) => a.v - b.v);
@@ -58,9 +56,9 @@ window.onload = function () {
       let s = lapRank[i] * 2 + displayRank[i] + turnRank[i] + strRank[i] * 0.5;
 
       // 🟠 フライング補正
-      if (data.fStatus[i] === "F1") s += 1.5;   // 軽度減点
-      if (data.fStatus[i] === "F2") s += 4;     // 大幅減点（軸NG）
-      if (data.fStatus[i] === "F3") s += 8;     // 実質除外級
+      if (data.fStatus[i] === "F1") s += 1.5;
+      if (data.fStatus[i] === "F2") s += 4;
+      if (data.fStatus[i] === "F3") s += 8;
       if (data.fStatus[i] === "なし") s += 0;
 
       // 🟢 階級補正
@@ -93,7 +91,6 @@ window.onload = function () {
     // --- 買い目生成 ---
     let main = [], sub = [], comment = "", confidence = "B";
 
-    const top3 = score.slice(0, 3).map(s => s.i);
     const validBoats = score
       .filter(s => !["F3"].includes(data.fStatus[s.i - 1]))
       .map(s => s.i);
@@ -140,14 +137,12 @@ window.onload = function () {
       confidence = "B−";
     }
 
-    // --- 重複防止（3連複の順番統一） ---
-    const toKey = arr => arr.slice().sort((a,b)=>a-b).join("-");
+    const toKey = arr => arr.slice().sort((a, b) => a - b).join("-");
     if (toKey(main) === toKey(sub)) {
       const next = score.find(s => !main.includes(s.i));
       if (next) sub = normalize([...main.slice(0, 2), next.i]);
     }
 
-    // --- 総合ランク ---
     function getRankLabel(s) {
       if (s <= 4.5) return "S";
       if (s <= 6) return "A";
@@ -161,9 +156,8 @@ window.onload = function () {
       rank: getRankLabel(x.s),
     }));
 
-    // --- 出力 ---
     resultArea.innerHTML = `
-      <h3>🎯${data.place}${data.race}R／買い目：3連複2点（${scenario}）</h3>
+      <h3>🎯買い目：3連複2点（${scenario}）</h3>
       <p><b>本命：</b>${main.join("–")}</p>
       <p><b>押さえ：</b>${sub.join("–")}</p>
       <hr>
