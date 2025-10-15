@@ -1,78 +1,66 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ボートレース予想AI Ver.3.9</title>
-<style>
-body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f0f8ff;
-  padding: 20px;
-}
-.container {
-  max-width: 800px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px #aaa;
-}
-h1 {
-  text-align: center;
-  color: #0066cc;
-}
-textarea {
-  width: 100%;
-  height: 180px;
-  margin: 10px 0;
-  font-size: 14px;
-}
-button {
-  background: #0078d7;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-button:hover {
-  background: #005fa3;
-}
-.result {
-  background: #fafafa;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 10px;
-  border-left: 6px solid #0078d7;
-  white-space: pre-wrap;
-}
-.f1 { color: #ff9900; font-weight: bold; }
-.f2 { color: #ff3333; font-weight: bold; }
-.f3 { color: #990000; font-weight: bold; }
-</style>
+  <meta charset="UTF-8">
+  <title>ギャルボート by テイちゃん</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-<h1>🏁 ボートレース予想AI Ver.3.9</h1>
+  <h2>🏁 ギャルボート予想（入力画面）</h2>
 
-<p>艇データを入力（例）:</p>
-<textarea id="inputData" placeholder='例：
-1,6.72,36.80,7.83,7.61,0.05,-
-2,6.75,37.03,7.85,7.63,0.06,F1
-3,6.75,37.52,8.12,7.73,0.08,F2
-4,6.75,37.07,7.83,7.74,0.12,-
-5,6.70,36.88,7.87,7.69,0.28,F2
-6,6.75,37.24,7.99,7.70,0.12,-'></textarea>
+  <label>開催場：</label>
+  <input id="place" placeholder="例：住之江"><br>
 
-<button onclick="runPrediction()">予想する💡</button>
+  <label>レース番号：</label>
+  <input id="race" placeholder="例：12"><br>
 
-<div id="output" class="result"></div>
-</div>
+  <label>風向：</label>
+  <select id="windDir">
+    <option>追い風</option>
+    <option>向かい風</option>
+    <option>横風</option>
+  </select>
 
-<script src="app.js"></script>
+  <label>風速：</label>
+  <input id="windSpeed" type="number" step="0.1" value="0"> m<br><br>
+
+  <h4>選手情報（階級・フライング）</h4>
+  <table border="1" style="border-collapse: collapse; text-align: center;">
+    <tr><th>艇</th><th>階級</th><th>F持ち</th></tr>
+    <script>
+      for (let i = 1; i <= 6; i++) {
+        document.write(`
+          <tr>
+            <td>${i}</td>
+            <td>
+              <select id="rank${i}">
+                <option>A1</option>
+                <option>A2</option>
+                <option>B1</option>
+                <option>B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f${i}">
+                <option>なし</option>
+                <option>F1</option>
+                <option>F2</option>
+                <option>F3</option>
+              </select>
+            </td>
+          </tr>
+        `);
+      }
+    </script>
+  </table>
+
+  <h4>展示データ（コピー貼り付け）</h4>
+  <textarea id="exData" rows="8" cols="60" placeholder="展示タイムや周回・直線などを貼り付け"></textarea>
+  <br><br>
+
+  <button onclick="analyze()">スタート💥</button>
+
+  <script src="app.js"></script>
 </body>
 </html>
-
 
