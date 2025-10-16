@@ -2,36 +2,84 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ギャルボート｜結果</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>展示解析結果｜ギャルボート by テイちゃん💋</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="header">
-  <div class="header-bg">
-    <img src="header.png" alt="ギャルボートヘッダー" class="header-image">
-    <div class="logo-overlay">
-      <h1>ギャルボート by テイちゃん💋</h1>
-    </div>
-  </div>
-</header>
+  <header class="header">
+    <img src="header.png" alt="ヘッダー画像" class="header-image">
+  </header>
 
+  <main id="resultArea">
+    <h3>解析中...</h3>
+  </main>
 
-<h2>🎯 予想結果</h2>
-<div id="resultArea"></div>
+  <script>
+    const data = JSON.parse(localStorage.getItem("teiData"));
+    if (!data) {
+      document.getElementById("resultArea").innerHTML = "<p>データが見つかりません。</p>";
+    } else {
+      const lines = data.exData.split("\n").map(l => l.trim());
+      const metrics = {};
+      ["展示", "周回", "周り足", "直線", "ST"].forEach(key => {
+        const line = lines.find(l => l.includes(key));
+        if (line) {
+          const nums = line.match(/[0-9]+\.[0-9]+/g);
+          if (nums && nums.length >= 6) metrics[key] = nums.slice(0, 6).map(Number);
+        }
+      });
+      if (!metrics["直線"]) metrics["直線"] = [7,7,7,7,7,7];
 
-<p style="margin: 1.5rem 0;">
-  <a href="input.html"><button>← 入力に戻る</button></a>
-  <a href="index.html" style="margin-left:8px;"><button>🏠 ホーム</button></a>
-</p>
+      const getRanks = values => {
+        const arr = values.map((v, i) => ({ v, i }));
+        arr.sort((a,b) => a.v - b.v);
+        const ranks = Array(6);
+        arr.forEach((x,i) => ranks[x.i] = i + 1);
+        return ranks;
+      };
 
-<script src="app.js"></script>
+      const displayRank = getRanks(metrics["展示"]);
+      const lapRank = getRanks(metrics["周回"]);
+      const turnRank = getRanks(metrics["周り足"]);
+      const strRank = getRanks(metrics["直線"]);
 
-<footer class="footer">
-  <p>💫 powered by ギャルAI予想家テイちゃん 💫</p>
-</footer>
+      const score = [];
+      for (let i=0;i<6;i++){
+        let s = lapRank[i]*2 + displayRank[i] + turnRank[i] + strRank[i]*0.5;
+        if (data.fStatus[i]==="F1") s+=1.5;
+        if (data.fStatus[i]==="F2") s+=4;
+        if (data.fStatus[i]==="F3") s+=10;
+        if (data.ranks[i]==="A1") s-=0.8;
+        if (data.ranks[i]==="A2") s-=0.4;
+        if (data.ranks[i]==="B1") s+=0.6;
+        if (data.ranks[i]==="B2") s+=1.5;
+        score.push({i:i+1,s});
+      }
+
+      score.sort((a,b)=>a.s-b.s);
+
+      const evals = score.map(x => ({
+        boat: x.i,
+        rank: x.s <=4.5?"S":x.s<=6?"A":x.s<=8?"B":x.s<=10?"C":"D"
+      }));
+
+      document.getElementById("resultArea").innerHTML = `
+        <h3>🎯展示解析結果</h3>
+        <p>風向：${data.windDir}　風速：${data.windSpeed}m</p>
+        <hr>
+        <p>展示1位：${displayRank.indexOf(1)+1}号艇</p>
+        <p>周回1位：${lapRank.indexOf(1)+1}号艇</p>
+        <p>周り足1位：${turnRank.indexOf(1)+1}号艇</p>
+        <p>直線1位：${strRank.indexOf(1)+1}号艇</p>
+        <hr>
+        <p>🏁 総合ランク：${evals.map(e=>`${e.boat}号艇${e.rank}`).join("、 ")}</p>
+        <br>
+        <button onclick="location.href='index.html'">← 戻る</button>
+      `;
+    }
+  </script>
 
 </body>
 </html>
-
-
