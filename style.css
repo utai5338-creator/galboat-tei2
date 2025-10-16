@@ -31,16 +31,16 @@ body {
 .header-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 切れずに全体表示 */
-  object-position: center center;
+  object-fit: cover; /* ← contain → cover に変更でヘッダーいっぱい */
+  object-position: center 40%; /* ← 中央寄せで上下バランス */
   background-color: #dff3ff;
-  transform: scale(1.15); /* ← 拡大率を追加！（自然な大きさで収まる） */
+  transform: scale(1.05); /* ← ほんの少し拡大して端ギリまで */
   filter: brightness(1.05) contrast(1.05) saturate(1.05);
   transition: transform 1.5s ease;
 }
 
 .header:hover .header-image {
-  transform: scale(1.18); /* ← ホバー時、少しだけズーム */
+  transform: scale(1.08); /* ← ホバーで自然にズーム */
 }
 
 
@@ -165,6 +165,7 @@ footer {
 .container, .header {
   animation: fadeIn 0.6s ease;
 }
+
 
 
 
