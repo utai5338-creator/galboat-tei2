@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ギャルボート by テイちゃん💋</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <header class="header">
-    <img src="assets/header.png" alt="ヘッダー画像" class="header-image">
+    <img src="header.png" alt="ヘッダー画像" class="header-image" />
   </header>
 
   <main>
     <h2>🎯 展示データ解析フォーム</h2>
-
-    <label>レース場：</label>
-    <input type="text" id="place" placeholder="例：蒲郡">
-    <br><br>
 
     <label>風向：</label>
     <select id="windDir">
@@ -38,10 +34,12 @@
       <option value="7">7m</option>
       <option value="8">8m以上</option>
     </select>
+
     <br><br>
 
     <h4>展示データ（コピー貼り付け）</h4>
     <textarea id="exData" rows="8" cols="60" placeholder="展示・周回・直線タイムなどを貼り付け"></textarea>
+
     <br><br>
 
     <h4>選手ランク・フライング情報</h4>
@@ -50,19 +48,103 @@
         <tr>
           <th>艇</th><th>ランク</th><th>F持ち</th>
         </tr>
-        <tbody id="rankTable">
-          <tr><td>1号艇</td><td><input id="rank1" placeholder="A1など"></td>
-              <td><select id="f1"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
-          <tr><td>2号艇</td><td><input id="rank2"></td>
-              <td><select id="f2"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
-          <tr><td>3号艇</td><td><input id="rank3"></td>
-              <td><select id="f3"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
-          <tr><td>4号艇</td><td><input id="rank4"></td>
-              <td><select id="f4"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
-          <tr><td>5号艇</td><td><input id="rank5"></td>
-              <td><select id="f5"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
-          <tr><td>6号艇</td><td><input id="rank6"></td>
-              <td><select id="f6"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tbody>
+          <tr>
+            <td>1号艇</td>
+            <td>
+              <select id="rank1">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f1">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>2号艇</td>
+            <td>
+              <select id="rank2">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f2">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>3号艇</td>
+            <td>
+              <select id="rank3">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f3">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>4号艇</td>
+            <td>
+              <select id="rank4">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f4">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>5号艇</td>
+            <td>
+              <select id="rank5">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f5">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>6号艇</td>
+            <td>
+              <select id="rank6">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+              </select>
+            </td>
+            <td>
+              <select id="f6">
+                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
