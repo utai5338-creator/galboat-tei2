@@ -132,41 +132,49 @@ hr {
   }
 }
 
-/* 🌊 競艇っぽいヘッダー画像 */
+/* 🌊 競艇風ヘッダー（調整版） */
 .header {
   position: relative;
-  padding: 0;
-  height: 180px;
+  width: 100%;
+  height: 180px; /* ← 高さは後で好みに調整OK（180〜220px推奨） */
   overflow: hidden;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  background-color: #dff3ff; /* 読み込み中も水色背景に見せる */
 }
 
 .header-bg {
-  position: relative;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
 .header-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: brightness(0.85);
+  object-fit: contain; /* ← “全体を収める”設定！文字が切れない */
+  object-position: center top; /* 上寄せにしてボートを目立たせる */
+  background-color: #e6f3ff;
 }
 
 .logo-overlay {
   position: absolute;
-  top: 50%;
+  bottom: 8px; /* ← タイトルを画像下側に寄せる */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   text-align: center;
+  width: 100%;
 }
 
 .logo-overlay h1 {
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.25);
+  display: inline-block;
+  padding: 0.3em 0.8em;
+  border-radius: 6px;
 }
+
 
 
