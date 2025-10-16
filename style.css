@@ -12,11 +12,11 @@ body {
   text-align: center;
 }
 
-/* ---------- 💋 ヘッダー改良版 ---------- */
+/* ---------- 💋 ヘッダー最適化版（画像がちょうど見える） ---------- */
 .header {
   position: relative;
   width: 100%;
-  height: 260px; /* ← 少し高くしてボートをしっかり見せる */
+  height: 280px; /* ← 高さをさらに確保して画像をしっかり見せる */
   overflow: hidden;
   background-color: #dff3ff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -32,18 +32,18 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10%; /* ← 10%にすると画像の上を多めに表示 */
-  filter: brightness(1.08) contrast(1.08) saturate(1.05);
+  object-position: center 35%; /* ← 下げた（35%）ことでボート全体を見せる */
+  filter: brightness(1.05) contrast(1.05) saturate(1.05);
   transition: transform 1.5s ease;
 }
 
 .header:hover .header-image {
-  transform: scale(1.03); /* ← ホバー時に少しズーム、演出感UP */
+  transform: scale(1.03);
 }
 
 .logo-overlay {
   position: absolute;
-  bottom: 25px; /* ← 少し下げると安定感 */
+  bottom: 35px; /* ← 画像との距離をとる */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -52,15 +52,16 @@ body {
 
 .logo-overlay h1 {
   color: white;
-  font-size: 2rem; /* ← 少し大きくして存在感UP */
+  font-size: 2rem;
   font-weight: 800;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   background: rgba(0, 0, 0, 0.35);
   display: inline-block;
   padding: 0.4em 1em;
   border-radius: 8px;
-  backdrop-filter: blur(3px); /* ← ガラス風ぼかし */
+  backdrop-filter: blur(3px);
 }
+
 
 /* ---------- 📋 メインコンテンツ ---------- */
 main {
@@ -161,6 +162,7 @@ footer {
 .container, .header {
   animation: fadeIn 0.6s ease;
 }
+
 
 
 
