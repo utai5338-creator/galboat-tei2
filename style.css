@@ -1,165 +1,45 @@
-/* 🎨 ギャルボートデザイン Ver.4.0 by テイちゃん */
+/* ==============================
+   🌊 ギャルボート by テイちゃん Style
+   ============================== */
 
+/* 全体レイアウト */
 body {
-  font-family: "Noto Sans JP", sans-serif;
-  background: linear-gradient(180deg, #dff2ff 0%, #ffffff 100%);
-  color: #222;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  background: linear-gradient(to bottom, #eaf7ff, #d9f1ff);
+  color: #333;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-/* 🩵 ヘッダー */
-h2 {
-  background: linear-gradient(90deg, #ff66a3, #0078d7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 2rem;
-  margin-top: 1.5rem;
-  text-shadow: 0 2px 6px rgba(255, 0, 128, 0.2);
-}
-
-/* 💫 コンテナ（全体カード風） */
-.container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 2rem;
-}
-
-/* 🧍 テーブル */
-table {
-  margin: 1.5rem auto;
-  border-collapse: collapse;
-  width: 80%;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-th {
-  background: #0078d7;
-  color: #fff;
-  padding: 0.6rem 1rem;
-  font-weight: 500;
-}
-
-td {
-  padding: 0.5rem 0.8rem;
-  border-bottom: 1px solid #eee;
-}
-
-/* ✏️ テキストエリア */
-textarea {
-  border: 2px solid #ff7abc;
-  border-radius: 10px;
-  padding: 1rem;
-  width: 80%;
-  max-width: 600px;
-  font-size: 14px;
-  resize: vertical;
-  outline: none;
-  transition: 0.3s;
-}
-textarea:focus {
-  box-shadow: 0 0 10px rgba(255, 122, 188, 0.4);
-}
-
-/* 💖 ボタン */
-button {
-  background: linear-gradient(90deg, #ff0080, #ff6ac1);
-  color: white;
-  border: none;
-  border-radius: 30px;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(255,0,128,0.4);
-  transition: all 0.3s ease;
-}
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255,0,128,0.6);
-}
-
-/* 🩷 フォーム項目 */
-select, input {
-  border: 1.5px solid #0078d7;
-  border-radius: 8px;
-  padding: 0.5rem;
-  margin: 0.3rem;
-}
-
-/* 💬 結果ページ */
-#resultArea {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  width: 85%;
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 2rem;
-  text-align: left;
-  line-height: 1.8;
-}
-
-h3, h4 {
-  color: #0078d7;
-}
-
-/* 🔥 区切り線 */
-hr {
-  width: 80%;
-  margin: 2rem auto;
-  border: 0;
-  border-top: 2px dashed #ccc;
-}
-
-/* 📱 スマホ対応 */
-@media screen and (max-width: 600px) {
-  .container, #resultArea {
-    width: 95%;
-    padding: 1.2rem;
-  }
-  table {
-    width: 100%;
-  }
-  button {
-    width: 90%;
-  }
-}
-
+/* ---------- 💋 ヘッダー ---------- */
 .header {
   position: relative;
   width: 100%;
-  height: 220px; /* ← 少し高さUP（200〜240pxくらいがおすすめ） */
+  height: 240px; /* ← 高さここで調整（220〜260推奨） */
   overflow: hidden;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   background-color: #dff3ff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 足りてなかった親の高さ指定 */
 .header-bg {
   position: relative;
   width: 100%;
-  height: 100%;   /* ←これが無いと img の height:100% が効かない */
+  height: 100%; /* ← これ重要！画像の高さを維持 */
 }
 
 .header-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ← contain → cover に変更で“ちょうどよく拡大” */
-  object-position: center top; /* 上のボートを目立たせる */
+  object-fit: cover; /* 画像をトリミングして全体にフィット */
+  object-position: center 15%; /* 上の方を見せたいときは数値を下げる（例: center 10%） */
   background-color: #e6f3ff;
-  filter: brightness(1.05) contrast(1.05); /* 色味をちょい強調 */
+  filter: brightness(1.05) contrast(1.05);
 }
 
 .logo-overlay {
   position: absolute;
-  bottom: 15px; /* ← 少し下げるとより安定 */
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -167,13 +47,59 @@ hr {
 }
 
 .logo-overlay h1 {
-  color: white;
-  font-size: 1.8rem; /* ← 少しだけ大きく */
+  color: #fff;
+  font-size: 1.8rem;
   font-weight: 700;
-  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
-  background: rgba(0,0,0,0.25);
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.25);
   display: inline-block;
   padding: 0.3em 0.8em;
   border-radius: 6px;
 }
+
+/* ---------- 💬 メインコンテンツ ---------- */
+main {
+  padding: 2em 1em;
+}
+
+.container {
+  background: white;
+  border-radius: 15px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2em;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #ff5bb2;
+  font-size: 1.6rem;
+  margin-bottom: 0.5em;
+}
+
+button {
+  background: linear-gradient(to right, #ff58c0, #ff8de3);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8em 1.6em;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 91, 178, 0.4);
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(255, 91, 178, 0.6);
+}
+
+/* ---------- ⚓ フッター ---------- */
+footer {
+  margin-top: 2em;
+  font-size: 0.9rem;
+  color: #444;
+  opacity: 0.8;
+}
+
 
