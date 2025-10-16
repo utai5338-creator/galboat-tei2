@@ -1,295 +1,91 @@
-/* ==============================
- 🌊 ギャルボート by テイちゃん Style 全面版
- ============================== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* 基本スタイル */
 body {
-  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
-  background: linear-gradient(to bottom, #eaf7ff, #d9f1ff);
-  color: #333;
+  font-family: 'Press Start 2P', 'Noto Sans JP', monospace;
+  background: radial-gradient(circle at top, #ffe5f0 0%, #fff 60%);
   margin: 0;
   padding: 0;
+  color: #222;
   text-align: center;
 }
 
-/* ---------- 💋 ヘッダー最適化版（画像がちょうど見える） ---------- */
+/* ヘッダー */
 .header {
   position: relative;
   width: 100%;
-  height: 280px; /* ← 高さをさらに確保して画像をしっかり見せる */
+  height: 220px;
   overflow: hidden;
-  background-color: #dff3ff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-}
-
-.header-bg {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
 .header-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ← contain → cover に変更でヘッダーいっぱい */
-  object-position: center 45%; /* ← 中央寄せで上下バランス */
-  background-color: #dff3ff;
-  transform: scale(1.05); /* ← ほんの少し拡大して端ギリまで */
-  filter: brightness(1.05) contrast(1.05) saturate(1.05);
-  transition: transform 1.5s ease;
+  object-fit: cover;
+  object-position: center 45%;
+  filter: brightness(0.9);
 }
 
-.header:hover .header-image {
-  transform: scale(1.08); /* ← ホバーで自然にズーム */
-}
-
-
-.logo-overlay {
+.title-banner {
   position: absolute;
-  bottom: 35px; /* ← 画像との距離をとる */
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
+  bottom: 10px;
+  left: 0;
   width: 100%;
-}
-
-.logo-overlay h1 {
-  color: white;
-  font-size: 2rem;
-  font-weight: 800;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  background: rgba(0, 0, 0, 0.35);
-  display: inline-block;
-  padding: 0.4em 1em;
-  border-radius: 8px;
-  backdrop-filter: blur(3px);
-}
-
-
-/* ---------- 📋 メインコンテンツ ---------- */
-main {
-  padding: 2em 1em;
-}
-
-.container {
-  background: white;
-  border-radius: 15px;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 2em;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  font-size: 1.6rem;
-  margin-bottom: 0.5em;
-  color: #ff48b5;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-}
-
-h2::before {
-  content: "🏁 ";
-}
-
-/* テーブルスタイル */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1em;
-}
-
-th, td {
-  padding: 0.6em;
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-}
-
-td select {
-  padding: 0.3em;
-  border-radius: 4px;
-  border: 1px solid #aaa;
-}
-
-/* フォームラベル */
-label {
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-/* セレクトボックス */
-select {
-  margin: 0.3em;
-  padding: 0.4em 0.6em;
-  border-radius: 6px;
-  border: 1px solid #aaa;
-  background-color: #fff;
-}
-
-/* ---------- 🎯 ボタン ---------- */
-button {
-  background: linear-gradient(to right, #ff58c0, #ff8de3);
+  font-size: 0.9rem;
   color: #fff;
+  text-shadow: 2px 2px 4px #000;
+}
+
+/* RPGメッセージウィンドウ */
+.rpg-box {
+  background: rgba(255,255,255,0.9);
+  border: 3px solid #ff80b0;
+  border-radius: 12px;
+  padding: 16px;
+  width: 80%;
+  max-width: 600px;
+  margin: 20px auto;
+  font-size: 0.8rem;
+  text-align: left;
+  box-shadow: 0 0 12px rgba(255,100,180,0.3);
+  animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ボタン */
+button {
+  background: linear-gradient(90deg, #ff80c0, #ffb6c1);
   border: none;
-  border-radius: 30px;
-  padding: 0.8em 1.6em;
+  border-radius: 8px;
+  padding: 12px 24px;
+  color: #fff;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255, 91, 178, 0.4);
-  transition: all 0.2s ease;
-  margin-top: 1.2em;
+  box-shadow: 0 0 10px rgba(255,128,192,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 14px rgba(255, 91, 178, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255,128,192,0.6);
 }
 
-/* ---------- ⚓ フッター ---------- */
+/* 入力 */
+input, select, textarea {
+  font-family: inherit;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 4px;
+}
+
+/* フッター */
 footer {
-  margin-top: 2em;
-  font-size: 0.9rem;
-  color: #444;
-  opacity: 0.8;
+  margin-top: 40px;
+  font-size: 0.6rem;
+  color: #777;
 }
-
-/* ---------- 🌈 アニメーション系 ---------- */
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.container, .header {
-  animation: fadeIn 0.6s ease;
-}
-
-.logo-overlay {
-  display: none;
-}
-
-/* ===============================
-   🌸 レスポンシブデザイン対応
-   =============================== */
-@media (max-width: 768px) {
-  header {
-    height: 200px;
-  }
-
-  .header-image {
-    object-fit: cover;
-    object-position: center 50%;
-    height: 100%;
-    width: 100%;
-  }
-
-  .intro-card {
-    width: 90%;
-    margin: 20px auto;
-    padding: 25px;
-    font-size: 0.95rem;
-  }
-
-  .intro-card h2 {
-    font-size: 1.3rem;
-  }
-
-  .intro-card p {
-    font-size: 0.9rem;
-  }
-
-  button {
-    font-size: 1rem;
-    padding: 12px 25px;
-  }
-}
-
-/* ===============================
-   💫 フェードインアニメーション
-   =============================== */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body {
-  animation: fadeInUp 1s ease-in-out;
-}
-
-/* ===============================
-   💋 ボタンのポップ演出
-   =============================== */
-button {
-  background: linear-gradient(135deg, #ff66b2, #ff1493);
-  border: none;
-  color: #fff;
-  border-radius: 50px;
-  box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-button:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 18px rgba(255, 20, 147, 0.4);
-}
-
-/* 💄 押したときに💋がポップする */
-button:active::after {
-  content: "💋";
-  position: absolute;
-  font-size: 1.5rem;
-  animation: kissPop 0.6s ease-out forwards;
-}
-
-@keyframes kissPop {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-50px) scale(1.6);
-  }
-}
-
-/* ===============================
-   🌈 ページ遷移フェード効果
-   =============================== */
-.fade-page {
-  animation: fadePage 0.8s ease-in-out;
-}
-
-@keyframes fadePage {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ===============================
-   ✨ footerに軽いきらめき
-   =============================== */
-footer {
-  background: linear-gradient(90deg, #ffe6f2, #e0f7ff, #ffe6f2);
-  background-size: 200% auto;
-  animation: shimmer 6s infinite linear;
-  padding: 10px 0;
-  font-size: 0.9rem;
-}
-
-@keyframes shimmer {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
-}
-
-
-
-
-
-
