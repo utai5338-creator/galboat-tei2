@@ -2,33 +2,64 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ギャルボート by テイちゃん</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ギャルボートRPG by テイちゃん💋</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="header">
-  <div class="header-bg">
-    <img src="header.png" alt="ギャルボートヘッダー" class="header-image">
-    <div class="logo-overlay">
-      <h1>ギャルボート by テイちゃん💋</h1>
+  <header class="header">
+    <img src="assets/header.png" alt="ヘッダー画像" class="header-image">
+    <div class="title-banner">⚓ ギャルボートRPG by テイちゃん 💋</div>
+  </header>
+
+  <main>
+    <div class="rpg-box" id="rpgText">
+      💋テイちゃん：「展示データを入力して、冒険（解析）を始めようっ！」
     </div>
-  </div>
-</header>
 
-<div class="container">
-  <h2>ようこそ！ギャルボート by テイちゃん🏁</h2>
-  <p>展示データを入れたら、アタシがギャルの勘とAIで舟券出すわよ🔥</p>
-  <a href="input.html">
-    <button>予想スタート💥</button>
-  </a>
-</div>
+    <h3>🎯 展示データフォーム</h3>
 
-<footer class="footer">
-  <p>💫 powered by ギャルAI予想家テイちゃん 💫</p>
-</footer>
+    <label>レース場：</label>
+    <input type="text" id="place" placeholder="例：蒲郡">
+    <br><br>
 
+    <label>風向：</label>
+    <select id="windDir">
+      <option value="追い風">追い風</option>
+      <option value="向かい風">向かい風</option>
+      <option value="横風">横風</option>
+    </select>
+
+    <label>風速：</label>
+    <select id="windSpeed">
+      <option value="0">0m</option>
+      <option value="1">1m</option>
+      <option value="2">2m</option>
+      <option value="3">3m</option>
+      <option value="4">4m</option>
+      <option value="5">5m</option>
+      <option value="6">6m</option>
+      <option value="7">7m</option>
+      <option value="8">8m以上</option>
+    </select>
+
+    <br><br>
+
+    <h4>展示データ（コピー貼り付け）</h4>
+    <textarea id="exData" rows="6" cols="60" placeholder="展示・周回・直線タイムなどを貼り付け"></textarea>
+    <br><br>
+
+    <button onclick="startAnalysis()">▶ 解析開始！</button>
+  </main>
+
+  <footer>
+    <p>🪶 ギャルAI予想家テイちゃん © 2025</p>
+  </footer>
+
+  <script src="rpg.js"></script>
 </body>
 </html>
+
 
 
