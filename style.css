@@ -166,7 +166,9 @@ footer {
   animation: fadeIn 0.6s ease;
 }
 
-
+.logo-overlay {
+  display: none;
+}
 
 
 
