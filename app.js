@@ -1,5 +1,4 @@
 function analyze() {
-  const place = document.getElementById("place").value;
   const windDir = document.getElementById("windDir").value;
   const windSpeed = parseFloat(document.getElementById("windSpeed").value);
   const exData = document.getElementById("exData").value;
@@ -10,7 +9,7 @@ function analyze() {
     fStatus.push(document.getElementById("f" + i).value);
   }
 
-  const data = { place, windDir, windSpeed, exData, ranks, fStatus };
+  const data = { windDir, windSpeed, exData, ranks, fStatus };
   localStorage.setItem("teiData", JSON.stringify(data));
   location.href = "result.html";
 }
@@ -68,7 +67,7 @@ window.onload = function () {
     }));
 
     resultArea.innerHTML = `
-      <h3>🎯${data.place} 展示解析結果</h3>
+      <h3>🎯展示解析結果</h3>
       <p>風向：${data.windDir}　風速：${data.windSpeed}m</p>
       <hr>
       <p>展示1位：${displayRank.indexOf(1)+1}号艇</p>
