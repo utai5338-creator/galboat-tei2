@@ -1,8 +1,8 @@
 /* ==============================
-   🌊 ギャルボート by テイちゃん Style
-   ============================== */
+ 🌊 ギャルボート by テイちゃん Style 全面版
+ ============================== */
 
-/* 全体レイアウト */
+/* 基本スタイル */
 body {
   font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   background: linear-gradient(to bottom, #eaf7ff, #d9f1ff);
@@ -16,7 +16,7 @@ body {
 .header {
   position: relative;
   width: 100%;
-  height: 240px; /* ← 高さここで調整（220〜260推奨） */
+  height: 240px; /* ← 高さ調整：220〜260が目安 */
   overflow: hidden;
   background-color: #dff3ff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -25,15 +25,14 @@ body {
 .header-bg {
   position: relative;
   width: 100%;
-  height: 100%; /* ← これ重要！画像の高さを維持 */
+  height: 100%;
 }
 
 .header-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 画像をトリミングして全体にフィット */
-  object-position: center 15%; /* 上の方を見せたいときは数値を下げる（例: center 10%） */
-  background-color: #e6f3ff;
+  object-fit: cover; /* トリミングしてフィット */
+  object-position: center 15%;
   filter: brightness(1.05) contrast(1.05);
 }
 
@@ -47,7 +46,7 @@ body {
 }
 
 .logo-overlay h1 {
-  color: #fff;
+  color: white;
   font-size: 1.8rem;
   font-weight: 700;
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
@@ -57,7 +56,7 @@ body {
   border-radius: 6px;
 }
 
-/* ---------- 💬 メインコンテンツ ---------- */
+/* ---------- 📋 メインコンテンツ ---------- */
 main {
   padding: 2em 1em;
 }
@@ -72,11 +71,55 @@ main {
 }
 
 h2 {
-  color: #ff5bb2;
   font-size: 1.6rem;
   margin-bottom: 0.5em;
+  color: #ff48b5;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
+h2::before {
+  content: "🏁 ";
+}
+
+/* テーブルスタイル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+th, td {
+  padding: 0.6em;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+td select {
+  padding: 0.3em;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+}
+
+/* フォームラベル */
+label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* セレクトボックス */
+select {
+  margin: 0.3em;
+  padding: 0.4em 0.6em;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+}
+
+/* ---------- 🎯 ボタン ---------- */
 button {
   background: linear-gradient(to right, #ff58c0, #ff8de3);
   color: #fff;
@@ -87,6 +130,7 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(255, 91, 178, 0.4);
   transition: all 0.2s ease;
+  margin-top: 1.2em;
 }
 
 button:hover {
@@ -100,6 +144,16 @@ footer {
   font-size: 0.9rem;
   color: #444;
   opacity: 0.8;
+}
+
+/* ---------- 🌈 アニメーション系 ---------- */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.container, .header {
+  animation: fadeIn 0.6s ease;
 }
 
 
