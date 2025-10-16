@@ -1,20 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
 body {
-  font-family: 'Press Start 2P', 'Noto Sans JP', monospace;
-  background: radial-gradient(circle at top, #ffe5f0 0%, #fff 60%);
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  background: linear-gradient(180deg, #f6faff 0%, #ffffff 100%);
+  color: #222;
   margin: 0;
   padding: 0;
-  color: #222;
   text-align: center;
 }
 
-/* ヘッダー */
+/* --- ヘッダー部分 --- */
 .header {
   position: relative;
   width: 100%;
   height: 220px;
   overflow: hidden;
+  background-color: #e6f3ff;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
@@ -23,31 +22,23 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center 45%;
-  filter: brightness(0.9);
+  animation: headerFloat 6s ease-in-out infinite alternate;
 }
 
-.title-banner {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  width: 100%;
-  font-size: 0.9rem;
-  color: #fff;
-  text-shadow: 2px 2px 4px #000;
+@keyframes headerFloat {
+  0% { transform: scale(1) translateY(0px); }
+  100% { transform: scale(1.05) translateY(-6px); }
 }
 
-/* RPGメッセージウィンドウ */
-.rpg-box {
-  background: rgba(255,255,255,0.9);
-  border: 3px solid #ff80b0;
+/* --- メイン --- */
+main {
+  padding: 20px;
+  background-color: #fff;
   border-radius: 12px;
-  padding: 16px;
-  width: 80%;
-  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 700px;
   margin: 20px auto;
-  font-size: 0.8rem;
-  text-align: left;
-  box-shadow: 0 0 12px rgba(255,100,180,0.3);
   animation: fadeIn 0.8s ease-in;
 }
 
@@ -56,36 +47,51 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ボタン */
+h2 {
+  color: #ff66a3;
+  margin-bottom: 15px;
+}
+
 button {
   background: linear-gradient(90deg, #ff80c0, #ffb6c1);
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(255,128,192,0.3);
+  box-shadow: 0 4px 10px rgba(255,128,192,0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(255,128,192,0.6);
+  box-shadow: 0 6px 12px rgba(255,128,192,0.4);
 }
 
-/* 入力 */
-input, select, textarea {
-  font-family: inherit;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin: 4px;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
 }
 
-/* フッター */
-footer {
-  margin-top: 40px;
-  font-size: 0.6rem;
-  color: #777;
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #ffebf2;
+  color: #333;
+}
+
+#resultArea {
+  padding: 20px;
+  text-align: left;
+  max-width: 700px;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
