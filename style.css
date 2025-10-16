@@ -170,6 +170,123 @@ footer {
   display: none;
 }
 
+/* ===============================
+   🌸 レスポンシブデザイン対応
+   =============================== */
+@media (max-width: 768px) {
+  header {
+    height: 200px;
+  }
+
+  .header-image {
+    object-fit: cover;
+    object-position: center 50%;
+    height: 100%;
+    width: 100%;
+  }
+
+  .intro-card {
+    width: 90%;
+    margin: 20px auto;
+    padding: 25px;
+    font-size: 0.95rem;
+  }
+
+  .intro-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .intro-card p {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+}
+
+/* ===============================
+   💫 フェードインアニメーション
+   =============================== */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  animation: fadeInUp 1s ease-in-out;
+}
+
+/* ===============================
+   💋 ボタンのポップ演出
+   =============================== */
+button {
+  background: linear-gradient(135deg, #ff66b2, #ff1493);
+  border: none;
+  color: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 18px rgba(255, 20, 147, 0.4);
+}
+
+/* 💄 押したときに💋がポップする */
+button:active::after {
+  content: "💋";
+  position: absolute;
+  font-size: 1.5rem;
+  animation: kissPop 0.6s ease-out forwards;
+}
+
+@keyframes kissPop {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(1.6);
+  }
+}
+
+/* ===============================
+   🌈 ページ遷移フェード効果
+   =============================== */
+.fade-page {
+  animation: fadePage 0.8s ease-in-out;
+}
+
+@keyframes fadePage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===============================
+   ✨ footerに軽いきらめき
+   =============================== */
+footer {
+  background: linear-gradient(90deg, #ffe6f2, #e0f7ff, #ffe6f2);
+  background-size: 200% auto;
+  animation: shimmer 6s infinite linear;
+  padding: 10px 0;
+  font-size: 0.9rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
 
 
 
