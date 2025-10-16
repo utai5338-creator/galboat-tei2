@@ -132,7 +132,6 @@ hr {
   }
 }
 
-/* 🌊 競艇風ヘッダー（調整版） */
 .header {
   position: relative;
   width: 100%;
@@ -141,7 +140,6 @@ hr {
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   background-color: #dff3ff;
 }
-
 
 .header-image {
   width: 100%;
@@ -171,7 +169,3 @@ hr {
   padding: 0.3em 0.8em;
   border-radius: 6px;
 }
-
-
-
-
