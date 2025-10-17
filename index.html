@@ -45,33 +45,20 @@
     <h4>選手ランク・フライング情報</h4>
     <div class="rank-section">
       <table>
-        <tr>
-          <th>艇</th><th>ランク</th><th>F持ち</th>
-        </tr>
-        <tbody>
-          ${[1,2,3,4,5,6].map(i => `
-          <tr>
-            <td>${i}号艇</td>
-            <td>
-              <select id="rank${i}">
-                <option value="A1">A1</option>
-                <option value="A2">A2</option>
-                <option value="B1">B1</option>
-                <option value="B2">B2</option>
-              </select>
-            </td>
-            <td>
-              <select id="f${i}">
-                <option>なし</option><option>F1</option><option>F2</option><option>F3</option>
-              </select>
-            </td>
-          </tr>`).join("")}
-        </tbody>
+        <tr><th>艇</th><th>ランク</th><th>F持ち</th></tr>
+        <tr><td>1号艇</td><td><select id="rank1"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f1"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tr><td>2号艇</td><td><select id="rank2"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f2"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tr><td>3号艇</td><td><select id="rank3"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f3"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tr><td>4号艇</td><td><select id="rank4"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f4"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tr><td>5号艇</td><td><select id="rank5"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f5"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
+        <tr><td>6号艇</td><td><select id="rank6"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></td><td><select id="f6"><option>なし</option><option>F1</option><option>F2</option><option>F3</option></select></td></tr>
       </table>
     </div>
 
     <br>
     <button onclick="analyze()">スタート💥</button>
+
+    <div id="resultArea"></div>
   </main>
 
   <script src="app.js"></script>
