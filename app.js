@@ -9,6 +9,7 @@ function analyze() {
     fStatus.push(document.getElementById("f" + i).value);
   }
 
+  // --- 展示データ解析 ---
   const lines = exData.split("\n").map(l => l.trim());
   const metrics = {};
   ["展示", "周回", "周り足", "直線", "ST"].forEach(key => {
@@ -33,6 +34,7 @@ function analyze() {
   const turnRank = getRanks(metrics["周り足"]);
   const strRank = getRanks(metrics["直線"]);
 
+  // --- 総合スコア算出 ---
   const score = [];
   for (let i=0;i<6;i++){
     let s = lapRank[i]*2 + displayRank[i] + turnRank[i] + strRank[i]*0.5;
@@ -47,15 +49,62 @@ function analyze() {
   }
 
   score.sort((a,b)=>a.s-b.s);
-
   const evals = score.map(x => ({
     boat: x.i,
     rank: x.s <=4.5?"S":x.s<=6?"A":x.s<=8?"B":x.s<=10?"C":"D"
   }));
 
+  // --- 1号艇信頼度 ---
+  let trust = 3;
+  let trustReason = "平均的な信頼度";
+  if (fStatus[0] !== "なし") {
+    trust -= 1;
+    trustReason = "フライング持ちでやや不安";
+  }
+  if (lapRank[0] === 1 || turnRank[0] === 1) {
+    trust += 1;
+    trustReason = "足しっかりで押し切り濃厚";
+  }
+  if (lapRank[0] >= 4) {
+    trust -= 1;
+    trustReason = "周回遅れて不安あり";
+  }
+  trust = Math.max(1, Math.min(5, trust));
+
+  // --- 展開メモ ---
+  let tenkai = "";
+  if (windDir === "追い風") tenkai += "イン有利でスロー勢優勢、";
+  if (windDir === "向かい風") tenkai += "外勢のまくり差し警戒、";
+  if (windDir === "横風") tenkai += "展開は混戦気味、";
+  const topBoat = evals[0].boat;
+  tenkai += `${topBoat}号艇が機力上位で主導権握りそう💨`;
+
+  // --- 買い目生成 ---
+  const top3 = evals.slice(0, 3).map(e => e.boat);
+  let main = [];
+  let sub = [];
+
+  // 本命：1号艇中心 or 周回上位
+  if (trust >= 4) {
+    main = [1, top3[1], top3[2]];
+    sub = [1, top3[0], 4];
+  } else {
+    main = [top3[0], top3[1], 1];
+    sub = [top3[0], top3[1], top3[2]];
+  }
+
+  // --- 自信ランク ---
+  let diff = Math.abs(score[0].s - score[1].s);
+  let conf = "B";
+  if (diff >= 2 && trust >= 4) conf = "S";
+  else if (diff >= 1.2) conf = "A";
+  else if (diff < 1.2) conf = "B";
+  if (windDir === "横風") conf = "B";
+
+  // --- 出力 ---
   const resultArea = document.getElementById("resultArea");
   resultArea.innerHTML = `
-    <h3>🎯展示解析結果</h3>
+    <h3>🎯展示解析＆AI予想結果</h3>
     <p>風向：${windDir}　風速：${windSpeed}m</p>
     <hr>
     <p>展示1位：${displayRank.indexOf(1)+1}号艇</p>
@@ -64,6 +113,19 @@ function analyze() {
     <p>直線1位：${strRank.indexOf(1)+1}号艇</p>
     <hr>
     <p>🏁 総合ランク：${evals.map(e=>`${e.boat}号艇${e.rank}`).join("、 ")}</p>
+    <p>💡1号艇信頼度：${"★".repeat(trust)}（${trustReason}）</p>
+    <p>🧠展開メモ：${tenkai}</p>
+    <hr>
+    <p>🎯本命：${main.sort((a,b)=>a-b).join("-")}</p>
+    <p>💥押さえ：${sub.sort((a,b)=>a-b).join("-")}</p>
+    <p>🎖予想自信ランク：${conf}</p>
+    <hr>
+    <p style="color:#ff66a3;">👑テイちゃんコメント：<br>
+    ${
+      conf === "S" ? "これガチで狙い目🔥足も展開も完璧ッ💋" :
+      conf === "A" ? "データ的に信頼度高め✨買う価値アリ！" :
+      "ちょい荒れ警戒⚡オッズ次第で調整してねっ💅"
+    }</p>
   `;
 
   resultArea.scrollIntoView({ behavior: "smooth" });
