@@ -79,54 +79,60 @@ function analyze() {
   const topBoat = evals[0].boat;
   tenkai += `${topBoat}号艇が機力上位で主導権握りそう💨`;
 
-  // --- 買い目生成 ---
-  const top3 = evals.slice(0, 3).map(e => e.boat);
-  let main = [];
-  let sub = [];
+// --- 買い目生成 ---
+const top3 = evals.slice(0, 3).map(e => e.boat);
+let main = [];
+let sub = [];
 
-  // 本命：1号艇中心 or 周回上位
-  if (trust >= 4) {
-    main = [1, top3[1], top3[2]];
-    sub = [1, top3[0], 4];
-  } else {
-    main = [top3[0], top3[1], 1];
-    sub = [top3[0], top3[1], top3[2]];
-  }
+// 重複を避けながらセット作成
+const unique = arr => [...new Set(arr)].slice(0, 3);
 
-  // --- 自信ランク ---
-  let diff = Math.abs(score[0].s - score[1].s);
-  let conf = "B";
-  if (diff >= 2 && trust >= 4) conf = "S";
-  else if (diff >= 1.2) conf = "A";
-  else if (diff < 1.2) conf = "B";
-  if (windDir === "横風") conf = "B";
-
-  // --- 出力 ---
-  const resultArea = document.getElementById("resultArea");
-  resultArea.innerHTML = `
-    <h3>🎯展示解析＆AI予想結果</h3>
-    <p>風向：${windDir}　風速：${windSpeed}m</p>
-    <hr>
-    <p>展示1位：${displayRank.indexOf(1)+1}号艇</p>
-    <p>周回1位：${lapRank.indexOf(1)+1}号艇</p>
-    <p>周り足1位：${turnRank.indexOf(1)+1}号艇</p>
-    <p>直線1位：${strRank.indexOf(1)+1}号艇</p>
-    <hr>
-    <p>🏁 総合ランク：${evals.map(e=>`${e.boat}号艇${e.rank}`).join("、 ")}</p>
-    <p>💡1号艇信頼度：${"★".repeat(trust)}（${trustReason}）</p>
-    <p>🧠展開メモ：${tenkai}</p>
-    <hr>
-    <p>🎯本命：${main.sort((a,b)=>a-b).join("-")}</p>
-    <p>💥押さえ：${sub.sort((a,b)=>a-b).join("-")}</p>
-    <p>🎖予想自信ランク：${conf}</p>
-    <hr>
-    <p style="color:#ff66a3;">👑テイちゃんコメント：<br>
-    ${
-      conf === "S" ? "これガチで狙い目🔥足も展開も完璧ッ💋" :
-      conf === "A" ? "データ的に信頼度高め✨買う価値アリ！" :
-      "ちょい荒れ警戒⚡オッズ次第で調整してねっ💅"
-    }</p>
-  `;
-
-  resultArea.scrollIntoView({ behavior: "smooth" });
+if (trust >= 4) {
+  main = unique([1, top3[0], top3[1]]);
+  sub  = unique([1, top3[2], 4]);
+} else {
+  main = unique([top3[0], top3[1], 1]);
+  sub  = unique([top3[0], top3[1], top3[2]]);
 }
+
+// もし3艇未満なら補完
+while (main.length < 3) main.push(top3.find(b => !main.includes(b)) || 6);
+while (sub.length < 3) sub.push(top3.find(b => !sub.includes(b)) || 5);
+
+// --- 自信ランク ---
+let diff = Math.abs(score[0].s - score[1].s);
+let conf = "B";
+if (diff >= 2 && trust >= 4) conf = "S";
+else if (diff >= 1.2) conf = "A";
+else if (diff < 1.2) conf = "B";
+if (windDir === "横風") conf = "B";
+
+// --- 出力 ---
+const resultArea = document.getElementById("resultArea");
+resultArea.innerHTML = `
+  <h3>🎯展示解析＆AI予想結果</h3>
+  <p>風向：${windDir}　風速：${windSpeed}m</p>
+  <hr>
+  <p>展示1位：${displayRank.indexOf(1)+1}号艇</p>
+  <p>周回1位：${lapRank.indexOf(1)+1}号艇</p>
+  <p>周り足1位：${turnRank.indexOf(1)+1}号艇</p>
+  <p>直線1位：${strRank.indexOf(1)+1}号艇</p>
+  <hr>
+  <p>🏁 総合ランク：${evals.map(e=>`${e.boat}号艇${e.rank}`).join("、 ")}</p>
+  <p>💡1号艇信頼度：${"★".repeat(trust)}（${trustReason}）</p>
+  <p>🧠展開メモ：${tenkai}</p>
+  <hr>
+  <p>🎯本命：${main.sort((a,b)=>a-b).join("-")}</p>
+  <p>💥押さえ：${sub.sort((a,b)=>a-b).join("-")}</p>
+  <p>🎖予想自信ランク：${conf}</p>
+  <hr>
+  <p style="color:#ff66a3;">👑テイちゃんコメント：<br>
+  ${
+    conf === "S" ? "これガチで狙い目🔥足も展開も完璧ッ💋" :
+    conf === "A" ? "データ的に信頼度高め✨買う価値アリ！" :
+    "ちょい荒れ警戒⚡オッズ次第で調整してねっ💅"
+  }</p>
+`;
+
+resultArea.scrollIntoView({ behavior: "smooth" });
+
