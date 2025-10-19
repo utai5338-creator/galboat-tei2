@@ -136,3 +136,4 @@ resultArea.innerHTML = `
 
 resultArea.scrollIntoView({ behavior: "smooth" });
 
+
