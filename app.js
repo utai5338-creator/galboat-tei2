@@ -79,24 +79,37 @@ function analyze() {
   const topBoat = evals[0].boat;
   tenkai += `${topBoat}号艇が機力上位で主導権握りそう💨`;
 
-  // --- 買い目生成（重複排除版） ---
-  const top3 = evals.slice(0, 3).map(e => e.boat);
-  const unique = arr => [...new Set(arr)].slice(0, 3);
+ // --- 買い目生成（重複排除＋本命と押さえ差別化） ---
+const top3 = evals.slice(0, 3).map(e => e.boat);
+const unique = arr => [...new Set(arr)].slice(0, 3);
 
-  let main = [], sub = [];
+let main = [], sub = [];
 
-  if (trust >= 4) {
-    main = unique([1, top3[0], top3[1]]);
-    sub  = unique([1, top3[2], 4]);
+if (trust >= 4) {
+  main = unique([1, top3[0], top3[1]]);
+  sub  = unique([1, top3[2], 4]);
+} else {
+  main = unique([top3[0], top3[1], 1]);
+  sub  = unique([top3[0], top3[1], top3[2]]);
+}
+
+// 3艇未満なら補完
+while (main.length < 3) main.push(top3.find(b => !main.includes(b)) || 6);
+while (sub.length < 3) sub.push(top3.find(b => !sub.includes(b)) || 5);
+
+// ✅ 本命と押さえが完全一致していたら強制的に差別化
+const isSame = main.slice().sort().join("-") === sub.slice().sort().join("-");
+if (isSame) {
+  // 上位外枠艇（4〜6号艇）から未使用の艇を押さえに追加
+  const candidates = [4, 5, 6].filter(b => !main.includes(b));
+  if (candidates.length > 0) {
+    sub[sub.length - 1] = candidates[0];
   } else {
-    main = unique([top3[0], top3[1], 1]);
-    sub  = unique([top3[0], top3[1], top3[2]]);
+    // それでも被る場合は順位4位の艇を差し替え
+    const nextBoat = evals[3]?.boat || 6;
+    sub[sub.length - 1] = nextBoat;
   }
-
-  // 3艇未満なら補完
-  while (main.length < 3) main.push(top3.find(b => !main.includes(b)) || 6);
-  while (sub.length < 3) sub.push(top3.find(b => !sub.includes(b)) || 5);
-
+}
   // --- 自信ランク ---
   let diff = Math.abs(score[0].s - score[1].s);
   let conf = "B";
@@ -135,3 +148,4 @@ function analyze() {
 
   resultArea.scrollIntoView({ behavior: "smooth" });
 }
+
